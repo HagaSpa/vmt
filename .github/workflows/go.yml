@@ -1,0 +1,53 @@
+name: go test & go build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  test:
+    name: go test
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.14
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.14
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Test Parser
+      run: go test ./parser/
+      working-directory: ./vmt
+
+  build:
+    name: go build
+    runs-on: ubuntu-latest
+    needs: test
+    env:
+      DOCKER_BUILDKIT: 1
+    steps:
+
+    - name: Set up Go 1.14
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.14
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Build macOS
+      run: make PLATFORM=darwin/amd64
+    
+    - name: Build linux
+      run: make PLATFORM=linux/amd64
+    
+    - name: Build Windows
+      run: make PLATFORM=windows/amd64
