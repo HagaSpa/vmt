@@ -21,3 +21,8 @@ func New(r io.Reader) *Parser {
 func (p *Parser) HasMoreCommands() bool {
 	return p.scanner.Scan()
 }
+
+func (p *Parser) Advance() {
+	line := p.scanner.Text()
+	p.input = line
+}
