@@ -3,6 +3,7 @@ package parser
 import (
 	"bufio"
 	"io"
+	"strings"
 )
 
 type Parser struct {
@@ -24,5 +25,12 @@ func (p *Parser) HasMoreCommands() bool {
 
 func (p *Parser) Advance() {
 	line := p.scanner.Text()
+	if line == "" || strings.HasPrefix(line, "//") {
+		return
+	}
+	if strings.Contains(line, "//") {
+		line = line[:strings.Index(line, "//")]
+	}
+	line = strings.TrimSpace(line)
 	p.input = line
 }

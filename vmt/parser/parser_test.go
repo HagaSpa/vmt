@@ -46,6 +46,26 @@ func TestParser_Advance(t *testing.T) {
 			"test",
 			"test",
 		},
+		{
+			"comment",
+			"//comment",
+			"",
+		},
+		{
+			"whitespace",
+			"  test  ",
+			"test",
+		},
+		{
+			"empty",
+			"",
+			"",
+		},
+		{
+			"comment_in_sentence",
+			"test // comment",
+			"test",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -53,8 +73,9 @@ func TestParser_Advance(t *testing.T) {
 			p := New(b)
 			p.HasMoreCommands()
 			p.Advance()
+
 			if !reflect.DeepEqual(p.input, tt.want) {
-				t.Errorf("Parser.Advance() = %v, want %v", p.input, tt.want)
+				t.Errorf("Parser.Advance() = %s, want %s", p.input, tt.want)
 			}
 		})
 	}
