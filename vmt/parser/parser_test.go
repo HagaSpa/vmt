@@ -80,3 +80,29 @@ func TestParser_Advance(t *testing.T) {
 		})
 	}
 }
+
+func TestParser_CommandType(t *testing.T) {
+	tests := []struct {
+		name string
+		args string
+		want Type
+	}{
+		{
+			"add",
+			"add",
+			ARITHMETIC,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := strings.NewReader(tt.args)
+			p := New(b)
+			p.HasMoreCommands()
+			p.Advance()
+
+			if got := p.CommandType(); got != tt.want {
+				t.Errorf("Parser.CommandType() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

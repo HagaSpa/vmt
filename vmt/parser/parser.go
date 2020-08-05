@@ -6,6 +6,23 @@ import (
 	"strings"
 )
 
+type Type int
+
+// command type
+const (
+	_ Type = iota
+	None
+	ARITHMETIC
+	PUSH
+	POP
+	LABEL
+	GOTO
+	IF
+	FUNCTION
+	RETURN
+	CALL
+)
+
 type Parser struct {
 	scanner *bufio.Scanner
 	input   string
@@ -33,4 +50,28 @@ func (p *Parser) Advance() {
 	}
 	line = strings.TrimSpace(line)
 	p.input = line
+}
+
+func (p *Parser) CommandType() Type {
+	slice := strings.Split(p.input, " ")
+	switch slice[0] {
+	case "add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not":
+		return ARITHMETIC
+	case "push":
+		return PUSH
+	case "pop":
+		return POP
+	case "label":
+		return LABEL
+	case "goto":
+		return GOTO
+	case "if-goto":
+		return IF
+	case "function":
+		return RETURN
+	case "call":
+		return CALL
+	default:
+		return None // invalid vm command
+	}
 }
