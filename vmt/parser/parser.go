@@ -68,6 +68,8 @@ func (p *Parser) CommandType() Type {
 	case "if-goto":
 		return IF
 	case "function":
+		return FUNCTION
+	case "return":
 		return RETURN
 	case "call":
 		return CALL
