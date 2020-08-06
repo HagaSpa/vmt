@@ -3,6 +3,7 @@ package parser
 import (
 	"bufio"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -86,4 +87,13 @@ func (p *Parser) Arg1() string {
 	default:
 		return slice[1]
 	}
+}
+
+func (p *Parser) Arg2() (int, error) {
+	slice := strings.Split(p.input, " ")
+	arg2, err := strconv.Atoi(slice[2])
+	if err != nil {
+		return 0, err
+	}
+	return arg2, nil
 }

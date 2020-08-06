@@ -303,3 +303,70 @@ func TestParser_Arg1(t *testing.T) {
 		})
 	}
 }
+
+func TestParser_Arg2(t *testing.T) {
+	tests := []struct {
+		name    string
+		args    string
+		want    int
+		wantErr bool
+	}{
+		// PUSH
+		{
+			"push",
+			"push constant 7",
+			7,
+			false,
+		},
+		// POP
+		{
+			"pop",
+			"pop local 0",
+			0,
+			false,
+		},
+		// FUNCTION
+		{
+			"function",
+			"function mult 2",
+			2,
+			false,
+		},
+		// CALL
+		{
+			"call",
+			"call mult 2",
+			2,
+			false,
+		},
+
+		/*
+			when ARITHMETIC, LABEL, GOTO, IF and RETURN, Args2() must not be called...
+		*/
+
+		// invalid arg2
+		{
+			"invalid arg2",
+			"push constant test",
+			0,
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := strings.NewReader(tt.args)
+			p := New(b)
+			p.HasMoreCommands()
+			p.Advance()
+
+			got, err := p.Arg2()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Parser.Arg2() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("Parser.Arg2() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
