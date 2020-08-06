@@ -77,3 +77,13 @@ func (p *Parser) CommandType() Type {
 		return None // invalid vm command
 	}
 }
+
+func (p *Parser) Arg1() string {
+	slice := strings.Split(p.input, " ")
+	switch slice[0] {
+	case "add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not":
+		return slice[0]
+	default:
+		return slice[1]
+	}
+}

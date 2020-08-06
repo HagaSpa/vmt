@@ -191,3 +191,115 @@ func TestParser_CommandType(t *testing.T) {
 		})
 	}
 }
+
+func TestParser_Arg1(t *testing.T) {
+	tests := []struct {
+		name string
+		args string
+		want string
+	}{
+		// ARITHMETIC
+		{
+			"add",
+			"add",
+			"add",
+		},
+		{
+			"sub",
+			"sub",
+			"sub",
+		},
+		{
+			"neg",
+			"neg",
+			"neg",
+		},
+		{
+			"eq",
+			"eq",
+			"eq",
+		},
+		{
+			"gt",
+			"gt",
+			"gt",
+		},
+		{
+			"lt",
+			"lt",
+			"lt",
+		},
+		{
+			"and",
+			"and",
+			"and",
+		},
+		{
+			"or",
+			"or",
+			"or",
+		},
+		{
+			"not",
+			"not",
+			"not",
+		},
+		// PUSH
+		{
+			"push",
+			"push constant 7",
+			"constant",
+		},
+		// POP
+		{
+			"pop",
+			"pop local 0",
+			"local",
+		},
+		// LABEL
+		{
+			"label",
+			"label LOOP",
+			"LOOP",
+		},
+		// GOTO
+		{
+			"goto",
+			"goto LOOP",
+			"LOOP",
+		},
+		// IF
+		{
+			"if",
+			"if-goto END",
+			"END",
+		},
+		// FUNCTION
+		{
+			"function",
+			"function mult 2",
+			"mult",
+		},
+
+		// when RETURN, Args1() must not be called...
+
+		// CALL
+		{
+			"call",
+			"call mult 2",
+			"mult",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := strings.NewReader(tt.args)
+			p := New(b)
+			p.HasMoreCommands()
+			p.Advance()
+
+			if got := p.Arg1(); got != tt.want {
+				t.Errorf("Parser.Arg1() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
