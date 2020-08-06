@@ -281,7 +281,9 @@ func TestParser_Arg1(t *testing.T) {
 			"mult",
 		},
 
-		// when RETURN, Args1() must not be called...
+		/*
+			when RETURN, Args1() must not be called...
+		*/
 
 		// CALL
 		{
