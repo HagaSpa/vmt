@@ -8,7 +8,6 @@ import (
 )
 
 func TestCodeWriter_writeBinaryOperator(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		command string
@@ -100,6 +99,59 @@ M=M+1
 
 			if string(b.Bytes()) != tt.want {
 				t.Errorf("writeBinaryOperator() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
+
+func TestCodeWriter_writeUnaryOperator(t *testing.T) {
+	tests := []struct {
+		name    string
+		command string
+		args    string
+		want    string
+	}{
+		{
+			"neg",
+			"neg",
+			"-M",
+			`
+// Unary Operator -M
+@SP
+M=M-1
+A=M
+-M
+@SP
+M=M+1
+`,
+		},
+		{
+			"not",
+			"not",
+			"!M",
+			`
+// Unary Operator !M
+@SP
+M=M-1
+A=M
+!M
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			p := parser.New(strings.NewReader(tt.command))
+			cw := &CodeWriter{
+				w: b,
+				p: p,
+			}
+			cw.writeUnaryOperator(tt.args)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writeUnaryOperator() = %s, want %v", b, tt.want)
 			}
 		})
 	}

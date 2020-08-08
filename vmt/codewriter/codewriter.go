@@ -41,3 +41,21 @@ M=M+1
 	w.WriteString(asm)
 	w.Flush()
 }
+
+// Write for Unary Operator (ARITHMETIC)
+func (cw *CodeWriter) writeUnaryOperator(op string) {
+	asm :=
+		`
+// Unary Operator %s
+@SP
+M=M-1
+A=M
+%s
+@SP
+M=M+1
+`
+	asm = fmt.Sprintf(asm, op, op)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
