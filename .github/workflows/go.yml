@@ -25,6 +25,10 @@ jobs:
     - name: Test Parser
       run: go test ./parser/
       working-directory: ./vmt
+    
+    - name: Test CodeWriter
+      run: go test ./codewriter/
+      working-directory: ./vmt
 
   build:
     name: go build
