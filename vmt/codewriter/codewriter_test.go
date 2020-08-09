@@ -9,10 +9,10 @@ import (
 
 func TestCodeWriter_writeBinaryOperator(t *testing.T) {
 	tests := []struct {
-		name    string
-		command string
-		args    string
-		want    string
+		name string
+		line string
+		args string
+		want string
 	}{
 		{
 			"add",
@@ -90,7 +90,7 @@ M=M+1
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			b := bytes.NewBufferString("")
-			p := parser.New(strings.NewReader(tt.command))
+			p := parser.New(strings.NewReader(tt.line))
 			cw := &CodeWriter{
 				w: b,
 				p: p,
@@ -106,10 +106,10 @@ M=M+1
 
 func TestCodeWriter_writeUnaryOperator(t *testing.T) {
 	tests := []struct {
-		name    string
-		command string
-		args    string
-		want    string
+		name string
+		line string
+		args string
+		want string
 	}{
 		{
 			"neg",
@@ -143,7 +143,7 @@ M=M+1
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			b := bytes.NewBufferString("")
-			p := parser.New(strings.NewReader(tt.command))
+			p := parser.New(strings.NewReader(tt.line))
 			cw := &CodeWriter{
 				w: b,
 				p: p,
