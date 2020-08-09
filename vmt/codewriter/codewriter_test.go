@@ -156,3 +156,62 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_writeConditionOperator(t *testing.T) {
+	type args struct {
+		op string
+		n  int
+	}
+	tests := []struct {
+		name string
+		line string
+		args args
+		want string
+	}{
+		{
+			"eq",
+			"eq",
+			args{
+				op: "eq",
+				n:  1,
+			},
+			`
+// Condition Operator eq
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@1
+D;JEQ
+@SP
+A=M
+M=0
+(1)
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			p := parser.New(strings.NewReader(tt.line))
+			cw := &CodeWriter{
+				w: b,
+				p: p,
+			}
+			cw.writeConditionOperator(tt.args.op, tt.args.n)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writeConditionOperator() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
