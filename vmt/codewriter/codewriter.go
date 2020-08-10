@@ -21,7 +21,32 @@ func New(w io.Writer, p *parser.Parser) *CodeWriter {
 	return cw
 }
 
-// Writer for Binary Operator (ARITHMETIC)
+/*
+Writer for Binary Operator (ARITHMETIC)
+
+e.g.. add
+
+1. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+2. push to D register from M register.
+	- A=M
+	- D=M
+
+3. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+4. Add M register and D register, push to M register.
+	- A=M
+	- M=D+M
+
+5. increase stack pointer by one.（Initialize stack pointer）
+	- @SP
+	- M=M+1
+
+*/
 func (cw *CodeWriter) writeBinaryOperator(op string) {
 	asm :=
 		`
@@ -43,7 +68,7 @@ M=M+1
 	w.Flush()
 }
 
-// Write for Unary Operator (ARITHMETIC)
+// Writer for Unary Operator (ARITHMETIC)
 func (cw *CodeWriter) writeUnaryOperator(op string) {
 	asm :=
 		`
@@ -61,6 +86,7 @@ M=M+1
 	w.Flush()
 }
 
+// Writer for Condition Operator (ARITHMETIC)
 func (cw *CodeWriter) writeConditionOperator(op string, n int) {
 	var jump string
 	switch op {
