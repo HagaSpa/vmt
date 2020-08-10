@@ -68,7 +68,24 @@ M=M+1
 	w.Flush()
 }
 
-// Writer for Unary Operator (ARITHMETIC)
+/*
+Writer for Unary Operator (ARITHMETIC)
+
+e.g.. neg
+
+1. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+2. Make it a negative number at M register.
+	- A=M
+	- -M
+
+3. increase stack pointer by one.（Initialize stack pointer）
+	- @SP
+	- M=M+1
+
+*/
 func (cw *CodeWriter) writeUnaryOperator(op string) {
 	asm :=
 		`
@@ -86,7 +103,49 @@ M=M+1
 	w.Flush()
 }
 
-// Writer for Condition Operator (ARITHMETIC)
+/*
+Writer for Condition Operator (ARITHMETIC)
+
+e.g.. eq
+
+1. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+2. push to D register from M register.
+	- A=M
+	- D=M
+
+3. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+4. substract M register from D register, push to D register.
+	- A=M
+	- D=M-D
+
+5. Set TRUE to the memory pointed to by the stack pointer
+	- @SP
+	- A=M
+	- M=-1 //0xFFFF
+
+6. if D register is 0, jump to 1
+	- @1
+	- D;JEQ
+
+7. Set FALSE to the memory pointed to by the stack pointer
+	- @SP
+	- A=M
+	- M=0 //0x0000
+
+8. Jump destination label
+	- (1)
+
+9. increase stack pointer by one.（Initialize stack pointer）
+	- @SP
+	- M=M+1
+
+*/
 func (cw *CodeWriter) writeConditionOperator(op string, n int) {
 	var jump string
 	switch op {
