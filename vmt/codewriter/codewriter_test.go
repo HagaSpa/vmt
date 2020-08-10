@@ -198,6 +198,66 @@ M=0
 M=M+1
 `,
 		},
+		{
+			"gt",
+			"gt",
+			args{
+				op: "gt",
+				n:  1,
+			},
+			`
+// Condition Operator gt
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@1
+D;JGT
+@SP
+A=M
+M=0
+(1)
+@SP
+M=M+1
+`,
+		},
+		{
+			"lt",
+			"lt",
+			args{
+				op: "lt",
+				n:  1,
+			},
+			`
+// Condition Operator lt
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@1
+D;JLT
+@SP
+A=M
+M=0
+(1)
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
