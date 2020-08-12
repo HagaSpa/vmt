@@ -2,9 +2,7 @@ package codewriter
 
 import (
 	"bytes"
-	"strings"
 	"testing"
-	"vmt/parser"
 )
 
 func TestCodeWriter_writeBinaryOperator(t *testing.T) {
@@ -90,10 +88,8 @@ M=M+1
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			b := bytes.NewBufferString("")
-			p := parser.New(strings.NewReader(tt.line))
 			cw := &CodeWriter{
 				w: b,
-				p: p,
 			}
 			cw.writeBinaryOperator(tt.args)
 
@@ -143,10 +139,8 @@ M=M+1
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			b := bytes.NewBufferString("")
-			p := parser.New(strings.NewReader(tt.line))
 			cw := &CodeWriter{
 				w: b,
-				p: p,
 			}
 			cw.writeUnaryOperator(tt.args)
 
@@ -262,10 +256,8 @@ M=M+1
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			b := bytes.NewBufferString("")
-			p := parser.New(strings.NewReader(tt.line))
 			cw := &CodeWriter{
 				w: b,
-				p: p,
 			}
 			cw.writeConditionOperator(tt.args.op, tt.args.n)
 

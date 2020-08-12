@@ -5,18 +5,15 @@ import (
 	"fmt"
 	"io"
 	"strconv"
-	"vmt/parser"
 )
 
 type CodeWriter struct {
 	w io.Writer
-	p *parser.Parser
 }
 
-func New(w io.Writer, p *parser.Parser) *CodeWriter {
+func New(w io.Writer) *CodeWriter {
 	cw := &CodeWriter{
 		w: w,
-		p: p,
 	}
 	return cw
 }
