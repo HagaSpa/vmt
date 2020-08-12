@@ -267,3 +267,49 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_WriteArithmetic(t *testing.T) {
+	type args struct {
+		cmd  string
+		addr int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"add",
+			args{
+				cmd:  "add",
+				addr: 0,
+			},
+			`
+// Binary Operator M=D+M
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=D+M
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.WriteArithmetic(tt.args.cmd, tt.args.addr)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("WriteArithmetic() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}

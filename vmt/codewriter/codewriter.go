@@ -18,6 +18,29 @@ func New(w io.Writer) *CodeWriter {
 	return cw
 }
 
+func (cw *CodeWriter) WriteArithmetic(cmd string, addr int) {
+	switch cmd {
+	case "add":
+		cw.writeBinaryOperator("M=D+M")
+	case "sub":
+		cw.writeBinaryOperator("M=M-D")
+	case "and":
+		cw.writeBinaryOperator("M=D&M")
+	case "or":
+		cw.writeBinaryOperator("M=D|M")
+	case "neg":
+		cw.writeUnaryOperator("-M")
+	case "not":
+		cw.writeUnaryOperator("!M")
+	case "eq":
+		cw.writeConditionOperator("eq", addr)
+	case "gt":
+		cw.writeConditionOperator("gt", addr)
+	case "lt":
+		cw.writeConditionOperator("lt", addr)
+	}
+}
+
 /*
 Writer for Binary Operator (ARITHMETIC)
 
