@@ -298,6 +298,66 @@ M=D+M
 M=M+1
 `,
 		},
+		{
+			"sub",
+			args{
+				cmd:  "sub",
+				addr: 0,
+			},
+			`
+// Binary Operator M=M-D
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=M-D
+@SP
+M=M+1
+`,
+		},
+		{
+			"and",
+			args{
+				cmd:  "and",
+				addr: 0,
+			},
+			`
+// Binary Operator M=D&M
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=D&M
+@SP
+M=M+1
+`,
+		},
+		{
+			"or",
+			args{
+				cmd:  "or",
+				addr: 0,
+			},
+			`
+// Binary Operator M=D|M
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+M=D|M
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
