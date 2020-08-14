@@ -358,6 +358,38 @@ M=D|M
 M=M+1
 `,
 		},
+		{
+			"neg",
+			args{
+				cmd:  "neg",
+				addr: 0,
+			},
+			`
+// Unary Operator -M
+@SP
+M=M-1
+A=M
+-M
+@SP
+M=M+1
+`,
+		},
+		{
+			"not",
+			args{
+				cmd:  "not",
+				addr: 0,
+			},
+			`
+// Unary Operator !M
+@SP
+M=M-1
+A=M
+!M
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
