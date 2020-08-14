@@ -390,6 +390,93 @@ A=M
 M=M+1
 `,
 		},
+		{
+			"eq",
+			args{
+				cmd:  "eq",
+				addr: 0,
+			},
+			`
+// Condition Operator eq
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@0
+D;JEQ
+@SP
+A=M
+M=0
+(0)
+@SP
+M=M+1
+`,
+		},
+		{
+			"gt",
+			args{
+				cmd:  "gt",
+				addr: 0,
+			},
+			`
+// Condition Operator gt
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@0
+D;JGT
+@SP
+A=M
+M=0
+(0)
+@SP
+M=M+1
+`,
+		},
+		{
+			"lt",
+			args{
+				cmd:  "lt",
+				addr: 0,
+			},
+			`
+// Condition Operator lt
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@0
+D;JLT
+@SP
+A=M
+M=0
+(0)
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
