@@ -8,7 +8,8 @@ import (
 )
 
 type CodeWriter struct {
-	w io.Writer
+	w    io.Writer
+	addr int
 }
 
 func New(w io.Writer) *CodeWriter {
@@ -28,7 +29,7 @@ FIXME:
 	3. Change the signature by removing addr from the argument of writeConditionOperator.
 	4. increment addr in writeConditionOperator.
 */
-func (cw *CodeWriter) WriteArithmetic(cmd string, addr int) {
+func (cw *CodeWriter) WriteArithmetic(cmd string) {
 	switch cmd {
 	case "add":
 		cw.writeBinaryOperator("M=D+M")
@@ -43,11 +44,11 @@ func (cw *CodeWriter) WriteArithmetic(cmd string, addr int) {
 	case "not":
 		cw.writeUnaryOperator("!M")
 	case "eq":
-		cw.writeConditionOperator("eq", addr)
+		cw.writeConditionOperator("eq")
 	case "gt":
-		cw.writeConditionOperator("gt", addr)
+		cw.writeConditionOperator("gt")
 	case "lt":
-		cw.writeConditionOperator("lt", addr)
+		cw.writeConditionOperator("lt")
 	}
 }
 
@@ -176,7 +177,7 @@ e.g.. eq
 	- M=M+1
 
 */
-func (cw *CodeWriter) writeConditionOperator(op string, n int) {
+func (cw *CodeWriter) writeConditionOperator(op string) {
 	var jump string
 	switch op {
 	case "eq":
@@ -186,7 +187,8 @@ func (cw *CodeWriter) writeConditionOperator(op string, n int) {
 	case "lt":
 		jump = "JLT"
 	}
-	s := strconv.Itoa(n)
+	cw.addr++
+	s := strconv.Itoa(cw.addr)
 	asm :=
 		`
 // Condition Operator %s

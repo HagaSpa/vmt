@@ -259,7 +259,7 @@ M=M+1
 			cw := &CodeWriter{
 				w: b,
 			}
-			cw.writeConditionOperator(tt.args.op, tt.args.n)
+			cw.writeConditionOperator(tt.args.op)
 
 			if string(b.Bytes()) != tt.want {
 				t.Errorf("writeConditionOperator() = %s, want %v", b, tt.want)
@@ -269,21 +269,14 @@ M=M+1
 }
 
 func TestCodeWriter_WriteArithmetic(t *testing.T) {
-	type args struct {
-		cmd  string
-		addr int
-	}
 	tests := []struct {
 		name string
-		args args
+		cmd  string
 		want string
 	}{
 		{
 			"add",
-			args{
-				cmd:  "add",
-				addr: 0,
-			},
+			"add",
 			`
 // Binary Operator M=D+M
 @SP
@@ -300,10 +293,7 @@ M=M+1
 		},
 		{
 			"sub",
-			args{
-				cmd:  "sub",
-				addr: 0,
-			},
+			"sub",
 			`
 // Binary Operator M=M-D
 @SP
@@ -320,10 +310,7 @@ M=M+1
 		},
 		{
 			"and",
-			args{
-				cmd:  "and",
-				addr: 0,
-			},
+			"and",
 			`
 // Binary Operator M=D&M
 @SP
@@ -340,10 +327,7 @@ M=M+1
 		},
 		{
 			"or",
-			args{
-				cmd:  "or",
-				addr: 0,
-			},
+			"or",
 			`
 // Binary Operator M=D|M
 @SP
@@ -360,10 +344,7 @@ M=M+1
 		},
 		{
 			"neg",
-			args{
-				cmd:  "neg",
-				addr: 0,
-			},
+			"neg",
 			`
 // Unary Operator -M
 @SP
@@ -376,10 +357,7 @@ M=M+1
 		},
 		{
 			"not",
-			args{
-				cmd:  "not",
-				addr: 0,
-			},
+			"not",
 			`
 // Unary Operator !M
 @SP
@@ -392,10 +370,7 @@ M=M+1
 		},
 		{
 			"eq",
-			args{
-				cmd:  "eq",
-				addr: 0,
-			},
+			"eq",
 			`
 // Condition Operator eq
 @SP
@@ -409,22 +384,19 @@ D=M-D
 @SP
 A=M
 M=-1
-@0
+@1
 D;JEQ
 @SP
 A=M
 M=0
-(0)
+(1)
 @SP
 M=M+1
 `,
 		},
 		{
 			"gt",
-			args{
-				cmd:  "gt",
-				addr: 0,
-			},
+			"gt",
 			`
 // Condition Operator gt
 @SP
@@ -438,22 +410,19 @@ D=M-D
 @SP
 A=M
 M=-1
-@0
+@1
 D;JGT
 @SP
 A=M
 M=0
-(0)
+(1)
 @SP
 M=M+1
 `,
 		},
 		{
 			"lt",
-			args{
-				cmd:  "lt",
-				addr: 0,
-			},
+			"lt",
 			`
 // Condition Operator lt
 @SP
@@ -467,12 +436,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@0
+@1
 D;JLT
 @SP
 A=M
 M=0
-(0)
+(1)
 @SP
 M=M+1
 `,
@@ -484,7 +453,7 @@ M=M+1
 			cw := &CodeWriter{
 				w: b,
 			}
-			cw.WriteArithmetic(tt.args.cmd, tt.args.addr)
+			cw.WriteArithmetic(tt.cmd)
 
 			if string(b.Bytes()) != tt.want {
 				t.Errorf("WriteArithmetic() = %s, want %v", b, tt.want)
