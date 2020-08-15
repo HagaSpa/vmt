@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
+	"regexp"
 	"vmt/parser"
 )
 
@@ -21,6 +23,15 @@ func main() {
 		os.Exit(1)
 	}
 	defer f.Close()
+
+	// generate asm
+	rep := regexp.MustCompile(`.vm$`)
+	name := filepath.Base(rep.ReplaceAllString(flags[0], "")) + ".asm"
+	asm, err := os.Create(name)
+	if err != nil {
+		os.Exit(1)
+	}
+	defer asm.Close()
 
 	// generate parser
 	p := parser.New(f)
