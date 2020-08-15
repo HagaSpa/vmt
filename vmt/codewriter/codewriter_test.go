@@ -152,23 +152,16 @@ M=M+1
 }
 
 func TestCodeWriter_writeConditionOperator(t *testing.T) {
-	type args struct {
-		op string
-		n  int
-	}
 	tests := []struct {
 		name string
 		line string
-		args args
+		op   string
 		want string
 	}{
 		{
 			"eq",
 			"eq",
-			args{
-				op: "eq",
-				n:  1,
-			},
+			"eq",
 			`
 // Condition Operator eq
 @SP
@@ -195,10 +188,7 @@ M=M+1
 		{
 			"gt",
 			"gt",
-			args{
-				op: "gt",
-				n:  1,
-			},
+			"gt",
 			`
 // Condition Operator gt
 @SP
@@ -225,10 +215,7 @@ M=M+1
 		{
 			"lt",
 			"lt",
-			args{
-				op: "lt",
-				n:  1,
-			},
+			"lt",
 			`
 // Condition Operator lt
 @SP
@@ -259,7 +246,7 @@ M=M+1
 			cw := &CodeWriter{
 				w: b,
 			}
-			cw.writeConditionOperator(tt.args.op)
+			cw.writeConditionOperator(tt.op)
 
 			if string(b.Bytes()) != tt.want {
 				t.Errorf("writeConditionOperator() = %s, want %v", b, tt.want)
