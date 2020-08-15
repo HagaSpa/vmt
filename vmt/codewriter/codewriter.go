@@ -18,6 +18,16 @@ func New(w io.Writer) *CodeWriter {
 	return cw
 }
 
+/*
+FIXME:
+	addr is added each time writeConditionOperator is called.
+	Also, the only method that needs addr is writeConditionOperator.
+
+	1. Add addr fields to CodeWriter.
+	2. Change the signature by removing addr from the argument of WriteArithmetic.
+	3. Change the signature by removing addr from the argument of writeConditionOperator.
+	4. increment addr in writeConditionOperator.
+*/
 func (cw *CodeWriter) WriteArithmetic(cmd string, addr int) {
 	switch cmd {
 	case "add":
