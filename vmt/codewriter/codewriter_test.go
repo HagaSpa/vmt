@@ -255,6 +255,173 @@ M=M+1
 	}
 }
 
+func TestCodeWriter_writeConditionOperator_incrementAddr(t *testing.T) {
+	tests := []struct {
+		name string
+		line string
+		op   string
+		want string
+	}{
+		{
+			"eq",
+			"eq",
+			"eq",
+			`
+// Condition Operator eq
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@1
+D;JEQ
+@SP
+A=M
+M=0
+(1)
+@SP
+M=M+1
+`,
+		},
+		{
+			"gt",
+			"gt",
+			"gt",
+			`
+// Condition Operator eq
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@1
+D;JEQ
+@SP
+A=M
+M=0
+(1)
+@SP
+M=M+1
+
+// Condition Operator gt
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@2
+D;JGT
+@SP
+A=M
+M=0
+(2)
+@SP
+M=M+1
+`,
+		},
+		{
+			"lt",
+			"lt",
+			"lt",
+			`
+// Condition Operator eq
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@1
+D;JEQ
+@SP
+A=M
+M=0
+(1)
+@SP
+M=M+1
+
+// Condition Operator gt
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@2
+D;JGT
+@SP
+A=M
+M=0
+(2)
+@SP
+M=M+1
+
+// Condition Operator lt
+@SP
+M=M-1
+A=M
+D=M
+@SP
+M=M-1
+A=M
+D=M-D
+@SP
+A=M
+M=-1
+@3
+D;JLT
+@SP
+A=M
+M=0
+(3)
+@SP
+M=M+1
+`,
+		},
+	}
+
+	b := bytes.NewBufferString("")
+	cw := &CodeWriter{
+		w: b,
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cw.writeConditionOperator(tt.op)
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writeConditionOperator() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
+
 func TestCodeWriter_WriteArithmetic(t *testing.T) {
 	tests := []struct {
 		name string
