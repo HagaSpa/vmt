@@ -615,3 +615,39 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_writePushConstant(t *testing.T) {
+	tests := []struct {
+		name string
+		args int
+		want string
+	}{
+		{
+			"test",
+			1,
+			`
+// push constant 1
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.writePushConstant(tt.args)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePushConstant() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}

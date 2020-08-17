@@ -207,3 +207,21 @@ M=M+1
 	w.WriteString(asm)
 	w.Flush()
 }
+
+func (cw *CodeWriter) writePushConstant(index int) {
+	s := strconv.Itoa(index)
+	asm := `
+// push constant %s
+@%s
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`
+	asm = fmt.Sprintf(asm, s, s)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
