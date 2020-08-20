@@ -69,8 +69,7 @@ e.g.. add
 
 */
 func (cw *CodeWriter) writeBinaryOperator(op string) {
-	asm :=
-		`
+	asm := `
 // Binary Operator %s
 @SP
 M=M-1
@@ -108,8 +107,7 @@ e.g.. neg
 
 */
 func (cw *CodeWriter) writeUnaryOperator(op string) {
-	asm :=
-		`
+	asm := `
 // Unary Operator %s
 @SP
 M=M-1
@@ -179,8 +177,7 @@ func (cw *CodeWriter) writeConditionOperator(op string) {
 	}
 	cw.addr++
 	s := strconv.Itoa(cw.addr)
-	asm :=
-		`
+	asm := `
 // Condition Operator %s
 @SP
 M=M-1
