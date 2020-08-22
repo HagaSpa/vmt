@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
+	"vmt/codewriter"
 	"vmt/parser"
 )
 
@@ -33,12 +33,22 @@ func main() {
 	}
 	defer asm.Close()
 
-	// generate parser
 	p := parser.New(f)
+	cw := codewriter.New(asm)
+
+	// write assembley
 	for p.HasMoreCommands() {
 		p.Advance()
-		fmt.Println(p)
-		// TODO: switch Type
+		switch p.CommandType() {
+		case parser.ARITHMETIC:
+			cw.WriteArithmetic(p.Arg1())
+		case parser.PUSH, parser.POP:
+			index, err := p.Arg2()
+			if err != nil {
+				os.Exit(1)
+			}
+			cw.WritePushPop(p.CommandType(), p.Arg1(), index)
+		}
 	}
 
 }

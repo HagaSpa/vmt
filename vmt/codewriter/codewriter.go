@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"strconv"
+	"vmt/parser"
 )
 
 type CodeWriter struct {
@@ -203,6 +204,16 @@ M=M+1
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
+}
+
+func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
+	switch cmd {
+	case parser.PUSH:
+		switch segment {
+		case "constant":
+			cw.writePushConstant(index)
+		}
+	}
 }
 
 func (cw *CodeWriter) writePushConstant(index int) {
