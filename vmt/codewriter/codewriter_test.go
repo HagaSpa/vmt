@@ -3,6 +3,7 @@ package codewriter
 import (
 	"bytes"
 	"testing"
+	"vmt/parser"
 )
 
 func TestCodeWriter_writeBinaryOperator(t *testing.T) {
@@ -612,6 +613,47 @@ M=M+1
 			if string(b.Bytes()) != tt.want {
 				t.Errorf("WriteArithmetic() = %s, want %v", b, tt.want)
 			}
+		})
+	}
+}
+
+func TestCodeWriter_WritePushPop(t *testing.T) {
+	type args struct {
+		cmd     parser.Type
+		segment string
+		index   int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"push constant 100",
+			args{
+				cmd:     parser.PUSH,
+				segment: "constant",
+				index:   100,
+			},
+			`
+// push constant 100
+@100
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.WritePushPop(tt.args.cmd, tt.args.segment, tt.args.index)
 		})
 	}
 }
