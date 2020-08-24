@@ -100,7 +100,7 @@ e.g.. neg
 
 2. Make it a negative number at M register.
 	- A=M
-	- -M
+	- M=-M
 
 3. increase stack pointer by one.（Initialize stack pointer）
 	- @SP
