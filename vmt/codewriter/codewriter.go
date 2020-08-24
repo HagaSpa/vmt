@@ -149,8 +149,8 @@ e.g.. eq
 	- A=M
 	- M=-1 //0xFFFF
 
-6. if D register is 0, jump to 1
-	- @1
+6. if D register is 0, jump to LABEL1
+	- @LABEL1
 	- D;JEQ
 
 7. Set FALSE to the memory pointed to by the stack pointer
@@ -159,7 +159,7 @@ e.g.. eq
 	- M=0 //0x0000
 
 8. Jump destination label
-	- (1)
+	- (LABEL1)
 
 9. increase stack pointer by one.（Initialize stack pointer）
 	- @SP
