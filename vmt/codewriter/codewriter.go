@@ -233,3 +233,27 @@ M=M+1
 	w.WriteString(asm)
 	w.Flush()
 }
+
+func (cw *CodeWriter) writePushSymbol(symbol string, index int) {
+	s := strconv.Itoa(index)
+	asm := `
+// push symbol %s index %s 
+@%s
+D=A
+@%s
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`
+	asm = fmt.Sprintf(asm, symbol, s, s, symbol)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}

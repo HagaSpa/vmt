@@ -693,3 +693,52 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_writePushSymbol(t *testing.T) {
+	type args struct {
+		symbol string
+		index  int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"local",
+			args{
+				symbol: "LCL",
+				index:  0,
+			},
+			`
+// push symbol LCL index 0 
+@0
+D=A
+@LCL
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.writePushSymbol(tt.args.symbol, tt.args.index)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePushSymbol() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
