@@ -31,9 +31,9 @@ func (cw *CodeWriter) WriteArithmetic(cmd string) {
 	case "or":
 		cw.writeBinaryOperator("M=D|M")
 	case "neg":
-		cw.writeUnaryOperator("-M")
+		cw.writeUnaryOperator("M=-M")
 	case "not":
-		cw.writeUnaryOperator("!M")
+		cw.writeUnaryOperator("M=!M")
 	case "eq":
 		cw.writeConditionOperator("eq")
 	case "gt":
@@ -191,12 +191,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@%s
+@LABEL%s
 D;%s
 @SP
 A=M
 M=0
-(%s)
+(LABEL%s)
 @SP
 M=M+1
 `

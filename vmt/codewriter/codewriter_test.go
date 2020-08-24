@@ -176,12 +176,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JEQ
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 `,
@@ -203,12 +203,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JGT
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 `,
@@ -230,12 +230,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JLT
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 `,
@@ -280,12 +280,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JEQ
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 `,
@@ -307,12 +307,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JEQ
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 
@@ -328,12 +328,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@2
+@LABEL2
 D;JGT
 @SP
 A=M
 M=0
-(2)
+(LABEL2)
 @SP
 M=M+1
 `,
@@ -355,12 +355,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JEQ
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 
@@ -376,12 +376,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@2
+@LABEL2
 D;JGT
 @SP
 A=M
 M=0
-(2)
+(LABEL2)
 @SP
 M=M+1
 
@@ -397,12 +397,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@3
+@LABEL3
 D;JLT
 @SP
 A=M
 M=0
-(3)
+(LABEL3)
 @SP
 M=M+1
 `,
@@ -501,11 +501,11 @@ M=M+1
 			"neg",
 			"neg",
 			`
-// Unary Operator -M
+// Unary Operator M=-M
 @SP
 M=M-1
 A=M
--M
+M=-M
 @SP
 M=M+1
 `,
@@ -514,11 +514,11 @@ M=M+1
 			"not",
 			"not",
 			`
-// Unary Operator !M
+// Unary Operator M=!M
 @SP
 M=M-1
 A=M
-!M
+M=!M
 @SP
 M=M+1
 `,
@@ -539,12 +539,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JEQ
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 `,
@@ -565,12 +565,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JGT
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 `,
@@ -591,12 +591,12 @@ D=M-D
 @SP
 A=M
 M=-1
-@1
+@LABEL1
 D;JLT
 @SP
 A=M
 M=0
-(1)
+(LABEL1)
 @SP
 M=M+1
 `,
