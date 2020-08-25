@@ -253,6 +253,37 @@ M=M+1
 	w.Flush()
 }
 
+/*
+Writer for Push Symbol (PUSH)
+
+e.g.. push local 0
+
+1. put 0 in D register
+	- @0
+	- D=A
+
+2. Add the stack area pointed to by LCL(local) and the D register
+	- @LCL
+	- D=D+M
+
+3. Save D register in the stack area pointed to by R13(temp)
+	- @R13
+	- M=D
+
+4. Set the stack area pointed to by R13 in the A register
+	- A=M
+	- D=M
+
+5. Save D register in the stack area pointed to by stack pointer
+	- @SP
+	- A=M
+	- M=D
+
+6. increase stack pointer by one.（Initialize stack pointer）
+	- @SP
+	- M=M+1
+
+*/
 func (cw *CodeWriter) writePushSymbol(symbol string, index int) {
 	s := strconv.Itoa(index)
 	asm := `
