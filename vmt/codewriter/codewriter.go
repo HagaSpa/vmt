@@ -216,6 +216,25 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 	}
 }
 
+/*
+Writer for Push Constant (PUSH)
+
+e.g.. push constant 0
+
+1. put 0 in D register
+	- @0
+	- D=A
+
+2. pop to M register from D register. M register is top +1 element in stack
+	- @SP
+	- M=A //Set empty value, using stack pointer
+	- M=D
+
+3. increase stack pointer by one.（Initialize stack pointer）
+	- @SP
+	- M=M+1
+
+*/
 func (cw *CodeWriter) writePushConstant(index int) {
 	s := strconv.Itoa(index)
 	asm := `
