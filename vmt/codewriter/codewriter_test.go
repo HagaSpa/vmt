@@ -686,6 +686,30 @@ M=D
 M=M+1
 `,
 		},
+		{
+			"push this 6",
+			args{
+				cmd:     parser.PUSH,
+				segment: "this",
+				index:   6,
+			},
+			`
+// push symbol THIS index 6 
+@6
+D=A
+@THIS
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
