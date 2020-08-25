@@ -710,6 +710,30 @@ M=D
 M=M+1
 `,
 		},
+		{
+			"push that 5",
+			args{
+				cmd:     parser.PUSH,
+				segment: "that",
+				index:   5,
+			},
+			`
+// push symbol THAT index 5 
+@5
+D=A
+@THAT
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
