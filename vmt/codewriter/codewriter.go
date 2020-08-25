@@ -205,6 +205,8 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 			cw.writePushConstant(index)
 		case "local":
 			cw.writePushSymbol("LCL", index)
+		case "argument":
+			cw.writePushSymbol("ARG", index)
 		}
 	}
 }

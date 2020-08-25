@@ -662,6 +662,30 @@ M=D
 M=M+1
 `,
 		},
+		{
+			"push argument 2",
+			args{
+				cmd:     parser.PUSH,
+				segment: "argument",
+				index:   2,
+			},
+			`
+// push symbol ARG index 2 
+@2
+D=A
+@ARG
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
