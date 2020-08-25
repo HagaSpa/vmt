@@ -638,6 +638,30 @@ M=D
 M=M+1
 `,
 		},
+		{
+			"push local 0",
+			args{
+				cmd:     parser.PUSH,
+				segment: "local",
+				index:   0,
+			},
+			`
+// push symbol LCL index 0 
+@0
+D=A
+@LCL
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

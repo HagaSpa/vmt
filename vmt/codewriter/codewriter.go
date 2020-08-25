@@ -203,6 +203,8 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 		switch segment {
 		case "constant":
 			cw.writePushConstant(index)
+		case "local":
+			cw.writePushSymbol("LCL", index)
 		}
 	}
 }
