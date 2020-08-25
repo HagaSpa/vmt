@@ -35,11 +35,11 @@ func (cw *CodeWriter) WriteArithmetic(cmd string) {
 	case "not":
 		cw.writeUnaryOperator("M=!M")
 	case "eq":
-		cw.writeConditionOperator("eq")
+		cw.writeConditionOperator("JEQ")
 	case "gt":
-		cw.writeConditionOperator("gt")
+		cw.writeConditionOperator("JGT")
 	case "lt":
-		cw.writeConditionOperator("lt")
+		cw.writeConditionOperator("JLT")
 	}
 }
 
@@ -167,15 +167,6 @@ e.g.. eq
 
 */
 func (cw *CodeWriter) writeConditionOperator(op string) {
-	var jump string
-	switch op {
-	case "eq":
-		jump = "JEQ"
-	case "gt":
-		jump = "JGT"
-	case "lt":
-		jump = "JLT"
-	}
 	cw.addr++
 	s := strconv.Itoa(cw.addr)
 	asm := `
@@ -200,7 +191,7 @@ M=0
 @SP
 M=M+1
 `
-	asm = fmt.Sprintf(asm, op, s, jump, s)
+	asm = fmt.Sprintf(asm, op, s, op, s)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()

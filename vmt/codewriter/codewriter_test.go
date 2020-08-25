@@ -155,16 +155,14 @@ M=M+1
 func TestCodeWriter_writeConditionOperator(t *testing.T) {
 	tests := []struct {
 		name string
-		line string
 		op   string
 		want string
 	}{
 		{
 			"eq",
-			"eq",
-			"eq",
+			"JEQ",
 			`
-// Condition Operator eq
+// Condition Operator JEQ
 @SP
 M=M-1
 A=M
@@ -188,10 +186,9 @@ M=M+1
 		},
 		{
 			"gt",
-			"gt",
-			"gt",
+			"JGT",
 			`
-// Condition Operator gt
+// Condition Operator JGT
 @SP
 M=M-1
 A=M
@@ -215,10 +212,9 @@ M=M+1
 		},
 		{
 			"lt",
-			"lt",
-			"lt",
+			"JLT",
 			`
-// Condition Operator lt
+// Condition Operator JLT
 @SP
 M=M-1
 A=M
@@ -259,16 +255,14 @@ M=M+1
 func TestCodeWriter_writeConditionOperator_incrementAddr(t *testing.T) {
 	tests := []struct {
 		name string
-		line string
 		op   string
 		want string
 	}{
 		{
 			"eq",
-			"eq",
-			"eq",
+			"JEQ",
 			`
-// Condition Operator eq
+// Condition Operator JEQ
 @SP
 M=M-1
 A=M
@@ -292,10 +286,9 @@ M=M+1
 		},
 		{
 			"gt",
-			"gt",
-			"gt",
+			"JGT",
 			`
-// Condition Operator eq
+// Condition Operator JEQ
 @SP
 M=M-1
 A=M
@@ -316,7 +309,7 @@ M=0
 @SP
 M=M+1
 
-// Condition Operator gt
+// Condition Operator JGT
 @SP
 M=M-1
 A=M
@@ -340,10 +333,9 @@ M=M+1
 		},
 		{
 			"lt",
-			"lt",
-			"lt",
+			"JLT",
 			`
-// Condition Operator eq
+// Condition Operator JEQ
 @SP
 M=M-1
 A=M
@@ -364,7 +356,7 @@ M=0
 @SP
 M=M+1
 
-// Condition Operator gt
+// Condition Operator JGT
 @SP
 M=M-1
 A=M
@@ -385,7 +377,7 @@ M=0
 @SP
 M=M+1
 
-// Condition Operator lt
+// Condition Operator JLT
 @SP
 M=M-1
 A=M
@@ -527,7 +519,7 @@ M=M+1
 			"eq",
 			"eq",
 			`
-// Condition Operator eq
+// Condition Operator JEQ
 @SP
 M=M-1
 A=M
@@ -553,7 +545,7 @@ M=M+1
 			"gt",
 			"gt",
 			`
-// Condition Operator gt
+// Condition Operator JGT
 @SP
 M=M-1
 A=M
@@ -579,7 +571,7 @@ M=M+1
 			"lt",
 			"lt",
 			`
-// Condition Operator lt
+// Condition Operator JLT
 @SP
 M=M-1
 A=M
