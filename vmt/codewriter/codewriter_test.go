@@ -719,6 +719,75 @@ M=D
 M=M+1
 `,
 		},
+		{
+			"argument",
+			args{
+				symbol: "ARG",
+				index:  0,
+			},
+			`
+// push symbol ARG index 0 
+@0
+D=A
+@ARG
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+		{
+			"this",
+			args{
+				symbol: "THIS",
+				index:  0,
+			},
+			`
+// push symbol THIS index 0 
+@0
+D=A
+@THIS
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+		{
+			"that",
+			args{
+				symbol: "THAT",
+				index:  0,
+			},
+			`
+// push symbol THAT index 0 
+@0
+D=A
+@THAT
+D=D+M
+@R13
+M=D
+A=M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
