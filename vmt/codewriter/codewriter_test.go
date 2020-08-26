@@ -734,6 +734,31 @@ M=D
 M=M+1
 `,
 		},
+		{
+			"pop local 0",
+			args{
+				cmd:     parser.POP,
+				segment: "local",
+				index:   0,
+			},
+			`
+// pop symbol LCL index 0
+@SP
+M=M-1
+@0
+D=A
+@LCL
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

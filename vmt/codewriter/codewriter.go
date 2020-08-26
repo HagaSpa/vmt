@@ -212,6 +212,11 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 		case "that":
 			cw.writePushSymbol("THAT", index)
 		}
+	case parser.POP:
+		switch segment {
+		case "local":
+			cw.writePopSymbol("LCL", index)
+		}
 	}
 }
 
