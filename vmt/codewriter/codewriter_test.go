@@ -759,6 +759,31 @@ A=M
 M=D
 `,
 		},
+		{
+			"pop argument 2",
+			args{
+				cmd:     parser.POP,
+				segment: "argument",
+				index:   2,
+			},
+			`
+// pop symbol ARG index 2
+@SP
+M=M-1
+@0
+D=A
+@ARG
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

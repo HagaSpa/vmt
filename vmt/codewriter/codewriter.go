@@ -216,6 +216,8 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 		switch segment {
 		case "local":
 			cw.writePopSymbol("LCL", index)
+		case "argument":
+			cw.writePopSymbol("ARG", index)
 		}
 	}
 }
