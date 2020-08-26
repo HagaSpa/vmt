@@ -220,6 +220,8 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 			cw.writePopSymbol("ARG", index)
 		case "this":
 			cw.writePopSymbol("THIS", index)
+		case "that":
+			cw.writePopSymbol("THAT", index)
 		}
 	}
 }

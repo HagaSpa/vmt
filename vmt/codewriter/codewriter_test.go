@@ -809,6 +809,31 @@ A=M
 M=D
 `,
 		},
+		{
+			"pop that 5",
+			args{
+				cmd:     parser.POP,
+				segment: "that",
+				index:   5,
+			},
+			`
+// pop symbol THAT index 5
+@SP
+M=M-1
+@5
+D=A
+@THAT
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
