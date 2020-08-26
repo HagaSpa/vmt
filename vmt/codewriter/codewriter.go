@@ -307,6 +307,36 @@ M=M+1
 	w.Flush()
 }
 
+/*
+Writer for Pop Symbol (POP)
+
+Pop the data at the top of the stack and store it in segment[index]
+
+e.g.. pop local 0
+
+1. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+2. put 0 in D register
+	- @0
+	- D=A
+
+3. Add the stack area pointed to by LCL(local) and the D register
+	- @LCL
+	- D=D+M
+
+4. put the data at the top of the stack in D register
+	- @SP
+	- A=M
+	- D=M
+
+5. Add D register in the stack area pointed to by R13(temp)
+	- @R13
+	- A=M
+	- M=D
+
+*/
 func (cw *CodeWriter) writePopSymbol(symbol string, index int) {
 	s := strconv.Itoa(index)
 	asm := `
