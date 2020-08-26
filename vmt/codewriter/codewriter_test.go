@@ -934,6 +934,78 @@ A=M
 M=D
 `,
 		},
+		{
+			"argument",
+			args{
+				symbol: "ARG",
+				index:  0,
+			},
+			`
+// pop symbol ARG index 0
+@SP
+M=M-1
+@0
+D=A
+@ARG
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`,
+		},
+		{
+			"this",
+			args{
+				symbol: "THIS",
+				index:  0,
+			},
+			`
+// pop symbol THIS index 0
+@SP
+M=M-1
+@0
+D=A
+@THIS
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`,
+		},
+		{
+			"that",
+			args{
+				symbol: "THAT",
+				index:  0,
+			},
+			`
+// pop symbol THAT index 0
+@SP
+M=M-1
+@0
+D=A
+@THAT
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
