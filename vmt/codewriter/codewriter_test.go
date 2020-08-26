@@ -899,3 +899,53 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_writePopSymbol(t *testing.T) {
+	type args struct {
+		symbol string
+		index  int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"local",
+			args{
+				symbol: "LCL",
+				index:  0,
+			},
+			`
+// pop symbol LCL index 0
+@SP
+M=M-1
+@0
+D=A
+@LCL
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.writePopSymbol(tt.args.symbol, tt.args.index)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePopSymbol() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}

@@ -306,3 +306,28 @@ M=M+1
 	w.WriteString(asm)
 	w.Flush()
 }
+
+func (cw *CodeWriter) writePopSymbol(symbol string, index int) {
+	s := strconv.Itoa(index)
+	asm := `
+// pop symbol %s index %s
+@SP
+M=M-1
+@%s
+D=A
+@%s
+D=D+M
+@R13
+M=D
+@SP
+A=M
+D=M
+@R13
+A=M
+M=D
+`
+	asm = fmt.Sprintf(asm, symbol, s, s, symbol)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
