@@ -319,6 +319,46 @@ M=M+1
 }
 
 /*
+Writer for Push Register (PUSH)
+
+Set Register value in stack area ponted to by stack pointer.
+
+e.g.. push temp 3
+
+1. Put R8 Register value in D register. so R8 is 5 + number(3).
+	- @R8
+	- D=M
+
+2. Add D register in the stack area pointed to by stack pointer
+	- @SP
+	- A=M
+	- M=D
+
+3. increase stack pointer by one.（Initialize stack pointer）
+	- @SP
+	- M=M+1
+
+*/
+func (cw *CodeWriter) writePushRegister(number int) {
+	addr := 5 + number
+	s := strconv.Itoa(addr)
+	asm := `
+// push register R%s
+@R%s
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`
+	asm = fmt.Sprintf(asm, s, s)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
+/*
 Writer for Pop Symbol (POP)
 
 Pop the data at the top of the stack and store it in segment[index]

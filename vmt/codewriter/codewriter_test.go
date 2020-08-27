@@ -1121,3 +1121,39 @@ M=D
 		})
 	}
 }
+
+func TestCodeWriter_writePushRegister(t *testing.T) {
+	tests := []struct {
+		name   string
+		number int
+		want   string
+	}{
+		{
+			"test",
+			3,
+			`
+// push register R8
+@R8
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.writePushRegister(tt.number)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePushRegister() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
