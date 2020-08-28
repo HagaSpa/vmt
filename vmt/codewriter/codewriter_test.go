@@ -735,6 +735,24 @@ M=M+1
 `,
 		},
 		{
+			"push temp 6",
+			args{
+				cmd:     parser.PUSH,
+				segment: "temp",
+				index:   6,
+			},
+			`
+// push register R11
+@R11
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+		{
 			"pop local 0",
 			args{
 				cmd:     parser.POP,

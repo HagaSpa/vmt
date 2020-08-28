@@ -211,6 +211,8 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 			cw.writePushSymbol("THIS", index)
 		case "that":
 			cw.writePushSymbol("THAT", index)
+		case "temp":
+			cw.writePushRegister(index)
 		}
 	case parser.POP:
 		switch segment {
