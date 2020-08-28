@@ -327,7 +327,7 @@ Set Register value in stack area ponted to by stack pointer.
 
 e.g.. push temp 3
 
-1. Put R8 Register value in D register. so R8 is 5 + number(3).
+1. Put R8 Register value in D register. R8 is 5 + index(=3).
 	- @R8
 	- D=M
 
@@ -409,6 +409,45 @@ A=M
 M=D
 `
 	asm = fmt.Sprintf(asm, symbol, s, s, symbol)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
+/*
+Writer for Pop Register (POP)
+
+Pop the data at the top of the stack and store it in register
+
+e.g.. pop temp 6
+
+1. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+4. put the data at the top of the stack in D register
+	- @SP
+	- A=M
+	- D=M
+
+5. Add D register in the stack area pointed to by R11. R11 is 5 + index(=6).
+	- @R13
+	- M=D
+
+*/
+func (cw *CodeWriter) writePopRegister(index int) {
+	s := strconv.Itoa(index)
+	asm := `
+// pop register R%s
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@R%s
+M=D
+`
+	asm = fmt.Sprintf(asm, s, s)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()

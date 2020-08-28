@@ -1175,3 +1175,39 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_writePopRegister(t *testing.T) {
+	tests := []struct {
+		name  string
+		index int
+		want  string
+	}{
+		{
+			"test",
+			11,
+			`
+// pop register R11
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@R11
+M=D
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.writePopRegister(tt.index)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePopRegister() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
