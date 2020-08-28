@@ -431,7 +431,7 @@ e.g.. pop temp 6
 	- D=M
 
 5. Add D register in the stack area pointed to by R11. R11 is 5 + index(=6).
-	- @R13
+	- @R11
 	- M=D
 
 */
