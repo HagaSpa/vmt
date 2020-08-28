@@ -1142,9 +1142,9 @@ M=D
 
 func TestCodeWriter_writePushRegister(t *testing.T) {
 	tests := []struct {
-		name   string
-		number int
-		want   string
+		name  string
+		index int
+		want  string
 	}{
 		{
 			"test",
@@ -1167,7 +1167,7 @@ M=M+1
 			cw := &CodeWriter{
 				w: b,
 			}
-			cw.writePushRegister(tt.number)
+			cw.writePushRegister(tt.index)
 
 			if string(b.Bytes()) != tt.want {
 				t.Errorf("writePushRegister() = %s, want %v", b, tt.want)
