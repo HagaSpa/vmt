@@ -224,6 +224,8 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 			cw.writePopSymbol("THIS", index)
 		case "that":
 			cw.writePopSymbol("THAT", index)
+		case "pop":
+			cw.writePopRegister(index + 5)
 		}
 	}
 }

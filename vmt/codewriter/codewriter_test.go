@@ -852,6 +852,24 @@ A=M
 M=D
 `,
 		},
+		{
+			"pop temp 6",
+			args{
+				cmd:     parser.POP,
+				segment: "temp",
+				index:   6,
+			},
+			`
+// pop register R11
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@R11
+M=D
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
