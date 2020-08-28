@@ -212,7 +212,7 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 		case "that":
 			cw.writePushSymbol("THAT", index)
 		case "temp":
-			cw.writePushRegister(index)
+			cw.writePushRegister(index + 5)
 		}
 	case parser.POP:
 		switch segment {
@@ -342,8 +342,7 @@ e.g.. push temp 3
 
 */
 func (cw *CodeWriter) writePushRegister(number int) {
-	addr := 5 + number
-	s := strconv.Itoa(addr)
+	s := strconv.Itoa(number)
 	asm := `
 // push register R%s
 @R%s

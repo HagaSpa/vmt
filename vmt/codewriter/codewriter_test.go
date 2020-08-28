@@ -1148,7 +1148,7 @@ func TestCodeWriter_writePushRegister(t *testing.T) {
 	}{
 		{
 			"test",
-			3,
+			8,
 			`
 // push register R8
 @R8
