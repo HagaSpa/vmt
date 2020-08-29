@@ -788,7 +788,7 @@ M=D
 // pop symbol ARG index 2
 @SP
 M=M-1
-@0
+@2
 D=A
 @ARG
 D=D+M
@@ -878,6 +878,10 @@ M=D
 				w: b,
 			}
 			cw.WritePushPop(tt.args.cmd, tt.args.segment, tt.args.index)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("WritePushPop() = %s, want %v", b, tt.want)
+			}
 		})
 	}
 }
