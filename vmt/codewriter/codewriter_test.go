@@ -888,6 +888,24 @@ D=M
 M=D
 `,
 		},
+		{
+			"pop pointer 0",
+			args{
+				cmd:     parser.POP,
+				segment: "pointer",
+				index:   0,
+			},
+			`
+// pop register R3
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@R3
+M=D
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
