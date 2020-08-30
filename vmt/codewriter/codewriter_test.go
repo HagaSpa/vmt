@@ -735,6 +735,24 @@ M=M+1
 `,
 		},
 		{
+			"push pointer 0",
+			args{
+				cmd:     parser.PUSH,
+				segment: "pointer",
+				index:   0,
+			},
+			`
+// push register R3
+@R3
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+		{
 			"push temp 6",
 			args{
 				cmd:     parser.PUSH,
