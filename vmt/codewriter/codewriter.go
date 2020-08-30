@@ -11,6 +11,7 @@ import (
 type CodeWriter struct {
 	w    io.Writer
 	addr int
+	fn   string
 }
 
 func New(w io.Writer) *CodeWriter {
@@ -18,6 +19,10 @@ func New(w io.Writer) *CodeWriter {
 		w: w,
 	}
 	return cw
+}
+
+func (cw *CodeWriter) SetFileName(fn string) {
+	cw.fn = fn
 }
 
 func (cw *CodeWriter) WriteArithmetic(cmd string) {
@@ -360,6 +365,46 @@ M=D
 M=M+1
 `
 	asm = fmt.Sprintf(asm, s, s)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
+/*
+Writer for Push Static (PUSH)
+
+Set Static value in stack area ponted to by stack pointer.
+
+e.g.. push static 1 (StackTest.vm)
+
+1. Put Static value in D register.
+	- @StaticTest.1
+	- D=M
+
+2. Add D register in the stack area pointed to by stack pointer
+	- @SP
+	- A=M
+	- M=D
+
+3. increase stack pointer by one.（Initialize stack pointer）
+	- @SP
+	- M=M+1
+
+*/
+func (cw *CodeWriter) writePushStatic(index int) {
+	s := strconv.Itoa(index)
+	static := fmt.Sprintf("%s.%s", cw.fn, s)
+	asm := `
+// push static %s
+@%s
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`
+	asm = fmt.Sprintf(asm, static, static)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()

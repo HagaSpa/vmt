@@ -1269,3 +1269,47 @@ M=D
 		})
 	}
 }
+
+func TestCodeWriter_writePushStatic(t *testing.T) {
+	type args struct {
+		index int
+		fn    string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"push static 1",
+			args{
+				index: 1,
+				fn:    "StackTest",
+			},
+			`
+// push static StackTest.1
+@StackTest.1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w:  b,
+				fn: tt.args.fn,
+			}
+			cw.writePushStatic(tt.args.index)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePushStatic() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
