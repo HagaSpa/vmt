@@ -2,6 +2,7 @@ package codewriter
 
 import (
 	"bytes"
+	"reflect"
 	"testing"
 	"vmt/parser"
 )
@@ -1309,6 +1310,33 @@ M=M+1
 
 			if string(b.Bytes()) != tt.want {
 				t.Errorf("writePushStatic() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
+
+func TestCodeWriter_SetFileName(t *testing.T) {
+	tests := []struct {
+		name string
+		fn   string
+		want string
+	}{
+		{
+			"test",
+			"filename",
+			"filename",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.SetFileName(tt.fn)
+
+			if !reflect.DeepEqual(cw.fn, tt.want) {
+				t.Errorf("SetFileName() = %v, want %v", cw.fn, tt.want)
 			}
 		})
 	}
