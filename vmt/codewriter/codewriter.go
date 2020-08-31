@@ -515,12 +515,12 @@ e.g.. pop static 0 (StackTest.vm)
 	- @SP
 	- M=M-1
 
-4. put the data at the top of the stack in D register
+2. put the data at the top of the stack in D register
 	- @SP
 	- A=M
 	- D=M
 
-5. Add D register in the stack area pointed to by static.
+3. Add D register in the stack area pointed to by static.
 	- @StaticTest.0
 	- M=D
 
