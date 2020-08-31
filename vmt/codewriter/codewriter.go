@@ -503,3 +503,43 @@ M=D
 	w.WriteString(asm)
 	w.Flush()
 }
+
+/*
+Writer for Pop Static (POP)
+
+Pop the data at the top of the stack and store it in static area (Memory[static])
+
+e.g.. pop static 0 (StackTest.vm)
+
+1. pop to M register, decrease stack pointer by one.
+	- @SP
+	- M=M-1
+
+4. put the data at the top of the stack in D register
+	- @SP
+	- A=M
+	- D=M
+
+5. Add D register in the stack area pointed to by static.
+	- @StaticTest.0
+	- M=D
+
+*/
+func (cw *CodeWriter) writePopStatic(index int) {
+	s := strconv.Itoa(index)
+	static := fmt.Sprintf("%s.%s", cw.fn, s)
+	asm := `
+// pop static %s
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@%s
+M=D
+`
+	asm = fmt.Sprintf(asm, static, static)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}

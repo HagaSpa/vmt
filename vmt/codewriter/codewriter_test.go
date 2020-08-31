@@ -1341,3 +1341,47 @@ func TestCodeWriter_SetFileName(t *testing.T) {
 		})
 	}
 }
+
+func TestCodeWriter_writePopStatic(t *testing.T) {
+	type args struct {
+		index int
+		fn    string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"pop static 0",
+			args{
+				index: 0,
+				fn:    "StackTest",
+			},
+			`
+// pop static StackTest.0
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@StackTest.0
+M=D
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w:  b,
+				fn: tt.args.fn,
+			}
+			cw.writePopStatic(tt.args.index)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePopStatic() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
