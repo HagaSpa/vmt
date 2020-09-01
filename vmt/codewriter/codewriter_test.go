@@ -772,6 +772,24 @@ M=M+1
 `,
 		},
 		{
+			"push static 8",
+			args{
+				cmd:     parser.PUSH,
+				segment: "static",
+				index:   8,
+			},
+			`
+// push static Test.8
+@Test.8
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+		{
 			"pop local 0",
 			args{
 				cmd:     parser.POP,
@@ -912,7 +930,8 @@ M=D
 		t.Run(tt.name, func(t *testing.T) {
 			b := bytes.NewBufferString("")
 			cw := &CodeWriter{
-				w: b,
+				w:  b,
+				fn: "Test",
 			}
 			cw.WritePushPop(tt.args.cmd, tt.args.segment, tt.args.index)
 

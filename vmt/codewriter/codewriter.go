@@ -220,6 +220,8 @@ func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
 			cw.writePushRegister(index + 3)
 		case "temp":
 			cw.writePushRegister(index + 5)
+		case "static":
+			cw.writePushStatic(index)
 		}
 	case parser.POP:
 		switch segment {
