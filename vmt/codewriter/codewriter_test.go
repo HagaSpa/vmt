@@ -925,6 +925,24 @@ D=M
 M=D
 `,
 		},
+		{
+			"pop static 8",
+			args{
+				cmd:     parser.POP,
+				segment: "static",
+				index:   8,
+			},
+			`
+// pop static Test.8
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@Test.8
+M=D
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
