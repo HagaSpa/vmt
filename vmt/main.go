@@ -17,13 +17,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	// open vm
-	f, err := os.Open(flags[0])
-	if err != nil {
-		os.Exit(1)
-	}
-	defer f.Close()
-
 	// generate asm
 	rep := regexp.MustCompile(`.vm$`)
 	name := filepath.Base(rep.ReplaceAllString(flags[0], "")) + ".asm"
@@ -32,9 +25,17 @@ func main() {
 		os.Exit(1)
 	}
 	defer asm.Close()
-
-	p := parser.New(f)
 	cw := codewriter.New(asm)
+
+	// open vm
+	// TODO: corresponds multiple vm file in directory
+	f, err := os.Open(flags[0])
+	if err != nil {
+		os.Exit(1)
+	}
+	defer f.Close()
+	p := parser.New(f)
+	cw.SetFileName(rep.ReplaceAllString(flags[0], ""))
 
 	// write assembley
 	for p.HasMoreCommands() {
