@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -19,7 +21,8 @@ func main() {
 
 	// generate asm
 	rep := regexp.MustCompile(`.vm$`)
-	name := filepath.Base(rep.ReplaceAllString(flags[0], "")) + ".asm"
+	bname := filepath.Base(rep.ReplaceAllString(flags[0], ""))
+	name := bname + ".asm"
 	asm, err := os.Create(name)
 	if err != nil {
 		os.Exit(1)
@@ -27,17 +30,31 @@ func main() {
 	defer asm.Close()
 	cw := codewriter.New(asm)
 
+	// IsDir?
+	fInfo, err := os.Stat(flags[0])
+	if err != nil {
+		log.Fatalln(err)
+	}
+	if fInfo.IsDir() {
+		// TODO: corresponds multiple files in directory
+		fmt.Println("IsDir")
+		return
+	}
+
+	cw.SetFileName(bname)
+	translate(flags[0], cw)
+}
+
+func translate(fn string, cw *codewriter.CodeWriter) {
 	// open vm
-	// TODO: corresponds multiple vm file in directory
-	f, err := os.Open(flags[0])
+	f, err := os.Open(fn)
 	if err != nil {
 		os.Exit(1)
 	}
 	defer f.Close()
-	p := parser.New(f)
-	cw.SetFileName(rep.ReplaceAllString(flags[0], ""))
 
 	// write assembley
+	p := parser.New(f)
 	for p.HasMoreCommands() {
 		p.Advance()
 		switch p.CommandType() {
@@ -51,5 +68,4 @@ func main() {
 			cw.WritePushPop(p.CommandType(), p.Arg1(), index)
 		}
 	}
-
 }
