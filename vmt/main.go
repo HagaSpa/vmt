@@ -46,9 +46,9 @@ func main() {
 	fmt.Println("IsDir")
 }
 
-func translate(fn string, cw *codewriter.CodeWriter) {
+func translate(vmn string, cw *codewriter.CodeWriter) {
 	// open vm
-	f, err := os.Open(fn)
+	f, err := os.Open(vmn)
 	if err != nil {
 		os.Exit(1)
 	}
