@@ -22,12 +22,13 @@ func main() {
 	// generate asm
 	rep := regexp.MustCompile(`.vm$`)
 	bname := filepath.Base(rep.ReplaceAllString(flags[0], ""))
-	name := bname + ".asm"
-	asm, err := os.Create(name)
+	asm, err := os.Create(bname + ".asm")
 	if err != nil {
 		os.Exit(1)
 	}
 	defer asm.Close()
+
+	// generate codewriter
 	cw := codewriter.New(asm)
 
 	// IsDir?
@@ -35,14 +36,14 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	if fInfo.IsDir() {
-		// TODO: corresponds multiple files in directory
-		fmt.Println("IsDir")
+	if !fInfo.IsDir() {
+		cw.SetFileName(bname)
+		translate(flags[0], cw)
 		return
 	}
 
-	cw.SetFileName(bname)
-	translate(flags[0], cw)
+	// TODO: corresponds multiple files in directory
+	fmt.Println("IsDir")
 }
 
 func translate(fn string, cw *codewriter.CodeWriter) {
