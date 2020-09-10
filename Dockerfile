@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:1.14.4-alpine AS build
+FROM --platform=${BUILDPLATFORM} golang:1.15.2-alpine AS build
 WORKDIR /src
 ENV CGO_ENABLED=0
 COPY ./vmt ./vmt
