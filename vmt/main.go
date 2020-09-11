@@ -42,7 +42,14 @@ func main() {
 		return
 	}
 
-	// TODO: corresponds multiple files in directory
+	// multiple files in directory
+	fpath := flags[0] + "/*.vm"
+	files, err := filepath.Glob(fpath)
+	for _, f := range files {
+		pf := filepath.Base(rep.ReplaceAllString(f, ""))
+		cw.SetFileName(pf)
+		translate(f, cw)
+	}
 	fmt.Println("IsDir")
 }
 
