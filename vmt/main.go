@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -41,6 +40,7 @@ func main() {
 	if !fInfo.IsDir() {
 		cw.SetFileName(bname)
 		translate(flags[0], cw)
+		log.Println("translated vm: " + bname + ".asm")
 		return
 	}
 
@@ -52,7 +52,7 @@ func main() {
 		cw.SetFileName(pf)
 		translate(f, cw)
 	}
-	fmt.Println("IsDir")
+	log.Println("translated multiple vm: " + bname + ".asm")
 }
 
 func translate(vmn string, cw *codewriter.CodeWriter) {
