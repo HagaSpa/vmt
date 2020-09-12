@@ -30,7 +30,7 @@ func main() {
 	bname := filepath.Base(rep.ReplaceAllString(flags[0], ""))
 	asm, err := os.Create(bname + ".asm")
 	if err != nil {
-		os.Exit(1)
+		log.Fatalln(err.Error())
 	}
 	defer asm.Close()
 
@@ -59,7 +59,7 @@ func translate(vmn string, cw *codewriter.CodeWriter) {
 	// open vm
 	f, err := os.Open(vmn)
 	if err != nil {
-		os.Exit(1)
+		log.Fatalln(err.Error())
 	}
 	defer f.Close()
 
@@ -73,7 +73,7 @@ func translate(vmn string, cw *codewriter.CodeWriter) {
 		case parser.PUSH, parser.POP:
 			index, err := p.Arg2()
 			if err != nil {
-				os.Exit(1)
+				log.Fatalln(err.Error())
 			}
 			cw.WritePushPop(p.CommandType(), p.Arg1(), index)
 		}
