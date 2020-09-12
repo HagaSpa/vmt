@@ -1,3 +1,10 @@
+.github/*
+.vscode/*
 bin/*
+source/*
 .git/*
 .gitignore
+Makefile
+README.md
+*.asm
+*.vm
