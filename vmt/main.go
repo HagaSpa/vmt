@@ -19,6 +19,12 @@ func main() {
 		log.Fatalln("Please specify the command argument for vm name")
 	}
 
+	// invalid args?
+	fInfo, err := os.Stat(flags[0])
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
 	// generate asm
 	rep := regexp.MustCompile(`.vm$`)
 	bname := filepath.Base(rep.ReplaceAllString(flags[0], ""))
@@ -32,10 +38,6 @@ func main() {
 	cw := codewriter.New(asm)
 
 	// IsDir?
-	fInfo, err := os.Stat(flags[0])
-	if err != nil {
-		log.Fatalln(err)
-	}
 	if !fInfo.IsDir() {
 		cw.SetFileName(bname)
 		translate(flags[0], cw)
