@@ -15,8 +15,8 @@ func main() {
 	// parse args
 	flag.Parse()
 	flags := flag.Args()
-	if flags == nil {
-		os.Exit(1)
+	if len(flags) == 0 {
+		log.Fatalln("Please specify the command argument for vm name")
 	}
 
 	// generate asm
