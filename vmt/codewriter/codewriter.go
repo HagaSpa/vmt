@@ -101,6 +101,24 @@ func (cw *CodeWriter) WriteLabel(label string) {
 	w.Flush()
 }
 
+func (cw *CodeWriter) WriteIf(label string) {
+	symbol := fmt.Sprintf("%s$%s", cw.fn, label)
+	asm := `
+// if-goto label %s
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@%s
+D;JNE
+`
+	asm = fmt.Sprintf(asm, symbol, symbol)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
 /*
 Writer for Binary Operator (ARITHMETIC)
 

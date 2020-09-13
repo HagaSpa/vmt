@@ -1460,3 +1460,47 @@ func TestCodeWriter_WriteLabel(t *testing.T) {
 		})
 	}
 }
+
+func TestCodeWriter_WriteIf(t *testing.T) {
+	type args struct {
+		label string
+		fn    string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"test",
+			args{
+				label: "test",
+				fn:    "TestFile",
+			},
+			`
+// if-goto label TestFile$test
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@TestFile$test
+D;JNE
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w:  b,
+				fn: tt.args.fn,
+			}
+			cw.WriteIf(tt.args.label)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("WriteIf() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
