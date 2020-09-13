@@ -48,6 +48,59 @@ func (cw *CodeWriter) WriteArithmetic(cmd string) {
 	}
 }
 
+func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
+	switch cmd {
+	case parser.PUSH:
+		switch segment {
+		case "constant":
+			cw.writePushConstant(index)
+		case "local":
+			cw.writePushSymbol("LCL", index)
+		case "argument":
+			cw.writePushSymbol("ARG", index)
+		case "this":
+			cw.writePushSymbol("THIS", index)
+		case "that":
+			cw.writePushSymbol("THAT", index)
+		case "pointer":
+			cw.writePushRegister(index + 3)
+		case "temp":
+			cw.writePushRegister(index + 5)
+		case "static":
+			cw.writePushStatic(index)
+		}
+	case parser.POP:
+		switch segment {
+		case "local":
+			cw.writePopSymbol("LCL", index)
+		case "argument":
+			cw.writePopSymbol("ARG", index)
+		case "this":
+			cw.writePopSymbol("THIS", index)
+		case "that":
+			cw.writePopSymbol("THAT", index)
+		case "pointer":
+			cw.writePopRegister(index + 3)
+		case "temp":
+			cw.writePopRegister(index + 5)
+		case "static":
+			cw.writePopStatic(index)
+		}
+	}
+}
+
+func (cw *CodeWriter) WriteLabel(label string) {
+	symbol := fmt.Sprintf("%s$%s", cw.fn, label)
+	asm := `
+// write label %s
+(%s)
+`
+	asm = fmt.Sprintf(asm, symbol, symbol)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
 /*
 Writer for Binary Operator (ARITHMETIC)
 
@@ -200,47 +253,6 @@ M=M+1
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
-}
-
-func (cw *CodeWriter) WritePushPop(cmd parser.Type, segment string, index int) {
-	switch cmd {
-	case parser.PUSH:
-		switch segment {
-		case "constant":
-			cw.writePushConstant(index)
-		case "local":
-			cw.writePushSymbol("LCL", index)
-		case "argument":
-			cw.writePushSymbol("ARG", index)
-		case "this":
-			cw.writePushSymbol("THIS", index)
-		case "that":
-			cw.writePushSymbol("THAT", index)
-		case "pointer":
-			cw.writePushRegister(index + 3)
-		case "temp":
-			cw.writePushRegister(index + 5)
-		case "static":
-			cw.writePushStatic(index)
-		}
-	case parser.POP:
-		switch segment {
-		case "local":
-			cw.writePopSymbol("LCL", index)
-		case "argument":
-			cw.writePopSymbol("ARG", index)
-		case "this":
-			cw.writePopSymbol("THIS", index)
-		case "that":
-			cw.writePopSymbol("THAT", index)
-		case "pointer":
-			cw.writePopRegister(index + 3)
-		case "temp":
-			cw.writePopRegister(index + 5)
-		case "static":
-			cw.writePopStatic(index)
-		}
-	}
 }
 
 /*
@@ -543,18 +555,6 @@ D=M
 M=D
 `
 	asm = fmt.Sprintf(asm, static, static)
-	w := bufio.NewWriter(cw.w)
-	w.WriteString(asm)
-	w.Flush()
-}
-
-func (cw *CodeWriter) WriteLabel(label string) {
-	symbol := fmt.Sprintf("%s$%s", cw.fn, label)
-	asm := `
-// write label %s
-(%s)
-`
-	asm = fmt.Sprintf(asm, symbol, symbol)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
