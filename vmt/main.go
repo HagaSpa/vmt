@@ -76,6 +76,10 @@ func translate(vmn string, cw *codewriter.CodeWriter) {
 				log.Fatalln(err.Error())
 			}
 			cw.WritePushPop(p.CommandType(), p.Arg1(), index)
+		case parser.LABEL:
+			cw.WriteLabel(p.Arg1())
+		case parser.IF:
+			cw.WriteIf(p.Arg1())
 		}
 	}
 }
