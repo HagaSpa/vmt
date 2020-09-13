@@ -1422,3 +1422,41 @@ M=D
 		})
 	}
 }
+
+func TestCodeWriter_WriteLabel(t *testing.T) {
+	type args struct {
+		label string
+		fn    string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"test1",
+			args{
+				label: "test",
+				fn:    "TestFile",
+			},
+			`
+// write label TestFile$test
+(TestFile$test)
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w:  b,
+				fn: tt.args.fn,
+			}
+			cw.WriteLabel(tt.args.label)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("WriteLabel() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}

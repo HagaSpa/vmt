@@ -547,3 +547,15 @@ M=D
 	w.WriteString(asm)
 	w.Flush()
 }
+
+func (cw *CodeWriter) WriteLabel(label string) {
+	symbol := fmt.Sprintf("%s$%s", cw.fn, label)
+	asm := `
+// write label %s
+(%s)
+`
+	asm = fmt.Sprintf(asm, symbol, symbol)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
