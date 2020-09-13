@@ -31,6 +31,13 @@ $ make PLATFORM=linux/amd64
 & make PLATFORM=windows/amd64
 ```
 
+## Args
+```
+$./bin/main {arg1}
+```
+`{arg1}` is vm file name or the directory name with multiple vm files.
+
+
 ## Run
 ```
 $ make
