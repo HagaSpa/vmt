@@ -1504,3 +1504,42 @@ D;JNE
 		})
 	}
 }
+
+func TestCodeWriter_WriteGoto(t *testing.T) {
+	type args struct {
+		label string
+		fn    string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"test",
+			args{
+				label: "test",
+				fn:    "TestFile",
+			},
+			`
+// goto label TestFile$test
+@TestFile$test
+0;JMP
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w:  b,
+				fn: tt.args.fn,
+			}
+			cw.WriteGoto(tt.args.label)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("WriteGoto() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}

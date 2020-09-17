@@ -119,6 +119,19 @@ D;JNE
 	w.Flush()
 }
 
+func (cw *CodeWriter) WriteGoto(label string) {
+	symbol := fmt.Sprintf("%s$%s", cw.fn, label)
+	asm := `
+// goto label %s
+@%s
+0;JMP
+`
+	asm = fmt.Sprintf(asm, symbol, symbol)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
 /*
 Writer for Binary Operator (ARITHMETIC)
 
