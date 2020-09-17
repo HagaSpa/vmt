@@ -44,6 +44,7 @@ func (p *Parser) HasMoreCommands() bool {
 func (p *Parser) Advance() {
 	line := p.scanner.Text()
 	if line == "" || strings.HasPrefix(line, "//") {
+		p.input = ""
 		return
 	}
 	if strings.Contains(line, "//") {
