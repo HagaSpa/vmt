@@ -80,6 +80,8 @@ func translate(vmn string, cw *codewriter.CodeWriter) {
 			cw.WriteLabel(p.Arg1())
 		case parser.IF:
 			cw.WriteIf(p.Arg1())
+		case parser.GOTO:
+			cw.WriteGoto(p.Arg1())
 		}
 	}
 }
