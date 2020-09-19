@@ -1615,3 +1615,67 @@ A=M
 		}
 	})
 }
+
+func TestCodeWriter_WriteFunction(t *testing.T) {
+	type args struct {
+		funcname string
+		numlocal int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"test",
+			args{
+				funcname: "TestFunction",
+				numlocal: 3,
+			},
+			`
+// function TestFunction local nums 3
+(TestFunction)
+
+// push constant 0
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push constant 0
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push constant 0
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.WriteFunction(tt.args.funcname, tt.args.numlocal)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("WriteFunction() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}

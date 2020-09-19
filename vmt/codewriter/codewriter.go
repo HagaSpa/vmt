@@ -195,6 +195,22 @@ A=M
 	w.Flush()
 }
 
+func (cw *CodeWriter) WriteFunction(funcname string, numlocal int) {
+	s := strconv.Itoa(numlocal)
+	asm := `
+// function %s local nums %s
+(%s)
+`
+	asm = fmt.Sprintf(asm, funcname, s, funcname)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+	// initialize local variable to 0
+	for i := 0; i < numlocal; i++ {
+		cw.writePushConstant(0)
+	}
+}
+
 /*
 Writer for Binary Operator (ARITHMETIC)
 
