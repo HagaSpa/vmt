@@ -1543,3 +1543,75 @@ func TestCodeWriter_WriteGoto(t *testing.T) {
 		})
 	}
 }
+
+func TestCodeWriter_WriteReturn(t *testing.T) {
+	want := `
+// return
+@LCL
+D=M
+@R13
+M=D
+@5
+D=A
+@R13
+A=M-D
+D=M
+@R14
+M=D
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@ARG
+A=M
+M=D
+@ARG
+D=M+1
+@SP
+M=D
+@1
+D=A
+@R13
+A=M-D
+D=M
+@THAT
+M=D
+@2
+D=A
+@R13
+A=M-D
+D=M
+@THIS
+M=D
+@3
+D=A
+@R13
+A=M-D
+D=M
+@ARG
+M=D
+@4
+D=A
+@R13
+A=M-D
+D=M
+@LCL
+M=D
+@R14
+A=M
+0;JMP
+`
+	t.Run("test1", func(t *testing.T) {
+		b := bytes.NewBufferString("")
+		cw := &CodeWriter{
+			w:  b,
+			fn: "test_fn",
+		}
+		cw.WriteReturn()
+
+		if string(b.Bytes()) != want {
+			t.Errorf("WriteReturn() = %s, want %v", b, want)
+		}
+	})
+}

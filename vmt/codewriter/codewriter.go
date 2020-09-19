@@ -132,6 +132,69 @@ func (cw *CodeWriter) WriteGoto(label string) {
 	w.Flush()
 }
 
+func (cw *CodeWriter) WriteReturn() {
+	asm := `
+// return
+@LCL
+D=M
+@R13
+M=D
+@5
+D=A
+@R13
+A=M-D
+D=M
+@R14
+M=D
+@SP
+M=M-1
+@SP
+A=M
+D=M
+@ARG
+A=M
+M=D
+@ARG
+D=M+1
+@SP
+M=D
+@1
+D=A
+@R13
+A=M-D
+D=M
+@THAT
+M=D
+@2
+D=A
+@R13
+A=M-D
+D=M
+@THIS
+M=D
+@3
+D=A
+@R13
+A=M-D
+D=M
+@ARG
+M=D
+@4
+D=A
+@R13
+A=M-D
+D=M
+@LCL
+M=D
+@R14
+A=M
+0;JMP
+`
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
 /*
 Writer for Binary Operator (ARITHMETIC)
 
