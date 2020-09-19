@@ -82,6 +82,8 @@ func translate(vmn string, cw *codewriter.CodeWriter) {
 			cw.WriteIf(p.Arg1())
 		case parser.GOTO:
 			cw.WriteGoto(p.Arg1())
+		case parser.RETURN:
+			cw.WriteReturn()
 		}
 	}
 }
