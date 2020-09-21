@@ -9,9 +9,10 @@ import (
 )
 
 type CodeWriter struct {
-	w    io.Writer
-	addr int
-	fn   string
+	w       io.Writer
+	addr    int
+	callcnt int
+	fn      string
 }
 
 func New(w io.Writer) *CodeWriter {
@@ -209,6 +210,26 @@ func (cw *CodeWriter) WriteFunction(funcname string, numlocal int) {
 	for i := 0; i < numlocal; i++ {
 		cw.writePushConstant(0)
 	}
+}
+
+func (cw *CodeWriter) WriteCall(funcname string, numargs int) {
+	rlabel := fmt.Sprintf("%s$%d", funcname, cw.callcnt)
+	asm := `
+// call %s args nums %d
+@%s
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`
+	asm = fmt.Sprintf(asm, funcname, numargs, rlabel)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+
+	cw.callcnt++
 }
 
 /*

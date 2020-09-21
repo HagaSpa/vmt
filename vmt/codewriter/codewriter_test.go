@@ -1679,3 +1679,46 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_WriteCall(t *testing.T) {
+	type args struct {
+		funcname string
+		numargs  int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"test",
+			args{
+				funcname: "TestFunc",
+				numargs:  1,
+			},
+			`
+// call TestFunc args nums 1
+@TestFunc$0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.WriteCall(tt.args.funcname, tt.args.numargs)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("WriteCall() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
