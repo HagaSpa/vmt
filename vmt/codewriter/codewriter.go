@@ -496,10 +496,9 @@ e.g.. push temp 3
 
 */
 func (cw *CodeWriter) writePushRegister(number int) {
-	s := strconv.Itoa(number)
 	asm := `
-// push register R%s
-@R%s
+// push register R%d
+@R%d
 D=M
 @SP
 A=M
@@ -507,7 +506,7 @@ M=D
 @SP
 M=M+1
 `
-	asm = fmt.Sprintf(asm, s, s)
+	asm = fmt.Sprintf(asm, number, number)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
