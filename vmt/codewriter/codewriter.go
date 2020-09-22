@@ -356,7 +356,6 @@ e.g.. eq
 */
 func (cw *CodeWriter) writeConditionOperator(op string) {
 	cw.addr++
-	s := strconv.Itoa(cw.addr)
 	asm := `
 // Condition Operator %s
 @SP
@@ -370,16 +369,16 @@ D=M-D
 @SP
 A=M
 M=-1
-@LABEL%s
+@LABEL%d
 D;%s
 @SP
 A=M
 M=0
-(LABEL%s)
+(LABEL%d)
 @SP
 M=M+1
 `
-	asm = fmt.Sprintf(asm, op, s, op, s)
+	asm = fmt.Sprintf(asm, op, cw.addr, op, cw.addr)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
