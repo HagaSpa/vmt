@@ -197,12 +197,11 @@ A=M
 }
 
 func (cw *CodeWriter) WriteFunction(funcname string, numlocal int) {
-	s := strconv.Itoa(numlocal)
 	asm := `
-// function %s local nums %s
+// function %s local nums %d
 (%s)
 `
-	asm = fmt.Sprintf(asm, funcname, s, funcname)
+	asm = fmt.Sprintf(asm, funcname, numlocal, funcname)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
