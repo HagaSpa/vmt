@@ -627,18 +627,17 @@ e.g.. pop temp 6
 
 */
 func (cw *CodeWriter) writePopRegister(index int) {
-	s := strconv.Itoa(index)
 	asm := `
-// pop register R%s
+// pop register R%d
 @SP
 M=M-1
 @SP
 A=M
 D=M
-@R%s
+@R%d
 M=D
 `
-	asm = fmt.Sprintf(asm, s, s)
+	asm = fmt.Sprintf(asm, index, index)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
