@@ -1705,6 +1705,42 @@ A=M
 M=D
 @SP
 M=M+1
+
+// push register LCL
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push register ARG
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push register THIS
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push register THAT
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
 `,
 		},
 	}

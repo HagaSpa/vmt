@@ -227,7 +227,11 @@ M=M+1
 	w.WriteString(asm)
 	w.Flush()
 
-	// TODO: push LCL, ARG, THIS, THAT
+	// push LCL, ARG, THIS, THAT
+	cw.writePushRegisterByName("LCL")
+	cw.writePushRegisterByName("ARG")
+	cw.writePushRegisterByName("THIS")
+	cw.writePushRegisterByName("THAT")
 
 	cw.callcnt++
 }
