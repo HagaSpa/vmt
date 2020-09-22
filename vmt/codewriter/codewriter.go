@@ -404,10 +404,9 @@ e.g.. push constant 0
 
 */
 func (cw *CodeWriter) writePushConstant(index int) {
-	s := strconv.Itoa(index)
 	asm := `
-// push constant %s
-@%s
+// push constant %d
+@%d
 D=A
 @SP
 A=M
@@ -415,7 +414,7 @@ M=D
 @SP
 M=M+1
 `
-	asm = fmt.Sprintf(asm, s, s)
+	asm = fmt.Sprintf(asm, index, index)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
