@@ -452,10 +452,9 @@ e.g.. push local 0
 
 */
 func (cw *CodeWriter) writePushSymbol(symbol string, index int) {
-	s := strconv.Itoa(index)
 	asm := `
-// push symbol %s index %s 
-@%s
+// push symbol %s index %d 
+@%d
 D=A
 @%s
 D=D+M
@@ -469,7 +468,7 @@ M=D
 @SP
 M=M+1
 `
-	asm = fmt.Sprintf(asm, symbol, s, s, symbol)
+	asm = fmt.Sprintf(asm, symbol, index, index, symbol)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
