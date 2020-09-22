@@ -534,8 +534,7 @@ e.g.. push static 1 (StackTest.vm)
 
 */
 func (cw *CodeWriter) writePushStatic(index int) {
-	s := strconv.Itoa(index)
-	static := fmt.Sprintf("%s.%s", cw.fn, s)
+	static := fmt.Sprintf("%s.%d", cw.fn, index)
 	asm := `
 // push static %s
 @%s
