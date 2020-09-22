@@ -227,6 +227,8 @@ M=M+1
 	w.WriteString(asm)
 	w.Flush()
 
+	// TODO: push LCL, ARG, THIS, THAT
+
 	cw.callcnt++
 }
 
@@ -506,6 +508,23 @@ M=D
 M=M+1
 `
 	asm = fmt.Sprintf(asm, number, number)
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+}
+
+func (cw *CodeWriter) writePushRegisterByName(register string) {
+	asm := `
+// push register %s
+@%s
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`
+	asm = fmt.Sprintf(asm, register, register)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()

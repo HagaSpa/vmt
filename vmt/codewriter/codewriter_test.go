@@ -1722,3 +1722,39 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_writePushRegisterByName(t *testing.T) {
+	tests := []struct {
+		name string
+		args string
+		want string
+	}{
+		{
+			"test",
+			"LCL",
+			`
+// push register LCL
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.writePushRegisterByName(tt.args)
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writePushRegisterByName() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}
