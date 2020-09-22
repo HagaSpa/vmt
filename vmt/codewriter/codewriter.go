@@ -582,12 +582,11 @@ e.g.. pop local 0
 
 */
 func (cw *CodeWriter) writePopSymbol(symbol string, index int) {
-	s := strconv.Itoa(index)
 	asm := `
-// pop symbol %s index %s
+// pop symbol %s index %d
 @SP
 M=M-1
-@%s
+@%d
 D=A
 @%s
 D=D+M
@@ -600,7 +599,7 @@ D=M
 A=M
 M=D
 `
-	asm = fmt.Sprintf(asm, symbol, s, s, symbol)
+	asm = fmt.Sprintf(asm, symbol, index, index, symbol)
 	w := bufio.NewWriter(cw.w)
 	w.WriteString(asm)
 	w.Flush()
