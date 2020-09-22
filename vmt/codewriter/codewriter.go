@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"strconv"
 	"vmt/parser"
 )
 
@@ -665,8 +664,7 @@ e.g.. pop static 0 (StackTest.vm)
 
 */
 func (cw *CodeWriter) writePopStatic(index int) {
-	s := strconv.Itoa(index)
-	static := fmt.Sprintf("%s.%s", cw.fn, s)
+	static := fmt.Sprintf("%s.%d", cw.fn, index)
 	asm := `
 // pop static %s
 @SP
