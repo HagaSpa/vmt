@@ -90,6 +90,12 @@ func translate(vmn string, cw *codewriter.CodeWriter) {
 			cw.WriteFunction(p.Arg1(), numlocal)
 		case parser.RETURN:
 			cw.WriteReturn()
+		case parser.CALL:
+			numargs, err := p.Arg2()
+			if err != nil {
+				log.Fatalln(err.Error())
+			}
+			cw.WriteCall(p.Arg1(), numargs)
 		}
 	}
 }
