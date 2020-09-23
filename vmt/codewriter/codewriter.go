@@ -233,6 +233,29 @@ M=M+1
 	cw.writePushRegisterByName("THIS")
 	cw.writePushRegisterByName("THAT")
 
+	rasm := `
+// set to return address 
+@SP
+D=M
+@%d
+D=D-A
+@5
+D=D-A
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@%s
+0;JMP
+(%s)
+`
+	rasm = fmt.Sprintf(rasm, numargs, funcname, rlabel)
+	w = bufio.NewWriter(cw.w)
+	w.WriteString(rasm)
+	w.Flush()
+
 	cw.callcnt++
 }
 

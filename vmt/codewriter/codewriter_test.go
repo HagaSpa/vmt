@@ -1741,6 +1741,23 @@ A=M
 M=D
 @SP
 M=M+1
+
+// set to return address 
+@SP
+D=M
+@1
+D=D-A
+@5
+D=D-A
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@TestFunc
+0;JMP
+(TestFunc$0)
 `,
 		},
 	}
