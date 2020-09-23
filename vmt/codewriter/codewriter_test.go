@@ -1811,3 +1811,96 @@ M=M+1
 		})
 	}
 }
+
+func TestCodeWriter_writeInit(t *testing.T) {
+	tests := []struct {
+		name string
+		want string
+	}{
+		{
+			"test",
+			`
+// initialize asm
+@256
+D=A
+@SP
+M=D
+
+// call Sys.init args nums 0
+@Sys.init$0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push register LCL
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push register ARG
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push register THIS
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// push register THAT
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+// set to return address 
+@SP
+D=M
+@0
+D=D-A
+@5
+D=D-A
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@Sys.init
+0;JMP
+(Sys.init$0)
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b := bytes.NewBufferString("")
+			cw := &CodeWriter{
+				w: b,
+			}
+			cw.writeInit()
+
+			if string(b.Bytes()) != tt.want {
+				t.Errorf("writeInit() = %s, want %v", b, tt.want)
+			}
+		})
+	}
+}

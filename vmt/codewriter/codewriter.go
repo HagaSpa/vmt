@@ -259,6 +259,20 @@ M=D
 	cw.callcnt++
 }
 
+func (cw *CodeWriter) writeInit() {
+	asm := `
+// initialize asm
+@256
+D=A
+@SP
+M=D
+`
+	w := bufio.NewWriter(cw.w)
+	w.WriteString(asm)
+	w.Flush()
+	cw.WriteCall("Sys.init", 0)
+}
+
 /*
 Writer for Binary Operator (ARITHMETIC)
 
