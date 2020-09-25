@@ -18,6 +18,7 @@ func New(w io.Writer) *CodeWriter {
 	cw := &CodeWriter{
 		w: w,
 	}
+	cw.writeInit()
 	return cw
 }
 
