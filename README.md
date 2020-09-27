@@ -41,13 +41,20 @@ $./bin/main {arg1}
 ## Run
 ```
 $ make
-$ ls bin 
-main
-$ ./bin/main SimpleAdd.vm 
-vmt $ cat SimpleAdd.asm 
 
-// push constant 7
-@7
+$ ./bin/main StaticsTest
+2020/09/27 10:33:22 translated multiple vm: StaticsTest.asm
+
+$ cat StaticsTest.asm 
+
+// initialize asm
+@256
+D=A
+@SP
+M=D
+
+// call Sys.init args nums 0
+@Sys.init$0
 D=A
 @SP
 A=M
@@ -55,26 +62,26 @@ M=D
 @SP
 M=M+1
 
-// push constant 8
-@8
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-
-// Binary Operator M=D+M
-@SP
-M=M-1
-A=M
+// push register LCL
+@LCL
 D=M
 @SP
-M=M-1
 A=M
-M=D+M
+M=D
 @SP
 M=M+1
+
+// push register ARG
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+.
+.
+.
 ```
 
 `Note: Confirmed to work only on macOS now`
